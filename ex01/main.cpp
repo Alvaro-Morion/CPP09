@@ -48,7 +48,7 @@ int main(int argc, char **argv)
 				else
 					rpn.push(std::atoi(n.c_str()));
 			}
-			else if(rpn.size >= 2 && (*it == '-' || *it == '+' || *it == '*' || *it == '/'))
+			else if(rpn.size() >= 2 && (*it == '-' || *it == '+' || *it == '*' || *it == '/'))
 			{
 				switch(*it)
 				{
