@@ -21,13 +21,15 @@ DataSource::DataSource()
 	std::tm date;
 
 	std::getline(ifs, line);
-	std::cout << line << std::endl;
 	while(std::getline(ifs, line))
 	{
 		strdate = line.substr(0, line.find(','));
 		line = line.erase(0, line.find(',') + 1);
-		std::cout << strdate << "," << std::stof(line) << std::endl;
-		strptime(strdate.c_str(),"%F", &date);
+		if(!strptime(strdate.c_str(),"%F", &date))
+		{
+			ifs.close();
+			throw(DataSource::InvalidDataSourceExcepton());
+		}
 		this->Data[mktime(&date)] = std::stof(line);
 	}
 
@@ -74,4 +76,23 @@ void	DataSource::SetData(std::map<std::time_t, float> change)
 const char*	DataSource::InvalidDataSourceExcepton::what() const _NOEXCEPT
 {
 	return("Invalid Data Source");
+}
+
+void	DataSource::Evaluate(std::time_t date, float amount)
+{
+	std::time_t							t;
+	std::map<std::time_t, float>::iterator	lb = this->Data.lower_bound(date);
+	std::map<std::time_t, float>::iterator 	prev = std::prev(lb);
+	if(lb == this->Data.end())
+		t = prev->first;
+	else if(lb == this->Data.begin())
+		t = lb->first;
+	else if(date - prev->first < lb->first - date)
+		t = prev->first;
+	else
+		t = lb->first;
+
+	char	buf[11];
+	std::strftime(buf, 11, "%Y-%m-%d", localtime(&date));
+	std::cout << buf << " => " << amount << " = " << amount * this->Data[t] << std::endl;
 }

@@ -21,7 +21,7 @@
 class DataSource
 {
 private:
-	std::map<std::time_t, float> Data;
+	std::map<std::time_t, float>Data;
 	DataSource(DataSource const &src);
 
 	class InvalidDataSourceExcepton : public std::exception
@@ -39,7 +39,7 @@ public:
 	void	SetData(std::map<std::time_t, float> change);
 
 
-	void	Evaluate(std::time_t, int amount);
+	void	Evaluate(std::time_t date, float amount);
 };
 
 std::ostream &operator <<(std::ostream &os, const DataSource &d);
