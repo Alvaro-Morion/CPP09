@@ -76,7 +76,7 @@ int main(int argc, char **argv)
 					case '/':
 						num = rpn.top();
 						rpn.pop();
-						num /= rpn.top();
+						num = rpn.top() / num;
 						rpn.pop();
 						rpn.push(num);
 						break;

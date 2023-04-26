@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   DataSource.hpp                                     :+:      :+:    :+:   */
+/*   BitcoinExchange.hpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amorion- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,30 +10,30 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DATASOURCE_HPP
-# define DATASOURCE_HPP
+#ifndef BitcoinExchange_HPP
+# define BitcoinExchange_HPP
 # include<map>
 # include<ctime>
 # include<string>
 # include<iostream>
 # include<fstream>
 
-class DataSource
+class BitcoinExchange
 {
 private:
 	std::map<std::time_t, float>Data;
-	DataSource(DataSource const &src);
+	BitcoinExchange(BitcoinExchange const &src);
 
-	class InvalidDataSourceExcepton : public std::exception
+	class InvalidBitcoinExchangeExcepton : public std::exception
 	{
 		public:
 			const char* what() const _NOEXCEPT;
 	};
 public:
-	DataSource();
-	~DataSource();
+	BitcoinExchange();
+	~BitcoinExchange();
 
-	DataSource	const	&operator=(DataSource const &rhs);
+	BitcoinExchange	const	&operator=(BitcoinExchange const &rhs);
 
 	std::map<std::time_t, float> const &GetData() const;
 	void	SetData(std::map<std::time_t, float> change);
@@ -42,6 +42,6 @@ public:
 	void	Evaluate(std::time_t date, float amount);
 };
 
-std::ostream &operator <<(std::ostream &os, const DataSource &d);
+std::ostream &operator <<(std::ostream &os, const BitcoinExchange &d);
 #endif
 

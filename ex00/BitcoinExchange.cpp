@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   DataSource.cpp                                     :+:      :+:    :+:   */
+/*   BitcoinExchange.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amorion- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,12 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./DataSource.hpp"
-DataSource::DataSource()
+#include "./BitcoinExchange.hpp"
+BitcoinExchange::BitcoinExchange()
 {
 	std::ifstream ifs("./data.csv", std::ifstream::in);
 	if(!ifs.good())
-		throw DataSource::InvalidDataSourceExcepton();
+		throw BitcoinExchange::InvalidBitcoinExchangeExcepton();
 	std::string line;
 	std::string strdate;
 	std::tm date;
@@ -28,25 +28,25 @@ DataSource::DataSource()
 		if(!strptime(strdate.c_str(),"%F", &date))
 		{
 			ifs.close();
-			throw(DataSource::InvalidDataSourceExcepton());
+			throw(BitcoinExchange::InvalidBitcoinExchangeExcepton());
 		}
 		this->Data[mktime(&date)] = std::stof(line);
 	}
 
 }
 
-DataSource::DataSource(DataSource const &src)
+BitcoinExchange::BitcoinExchange(BitcoinExchange const &src)
 {
 	this->Data = src.Data;
 }
 
-DataSource	const	&DataSource::operator=(DataSource const &rhs)
+BitcoinExchange	const	&BitcoinExchange::operator=(BitcoinExchange const &rhs)
 {
 	this->Data = rhs.Data;
 	return(*this);
 }
 
-std::ostream &operator<<(std::ostream &os, const DataSource &d)
+std::ostream &operator<<(std::ostream &os, const BitcoinExchange &d)
 {
 	std::map<std::time_t, float> map = d.GetData();
 	char buf[11];
@@ -60,25 +60,25 @@ std::ostream &operator<<(std::ostream &os, const DataSource &d)
 
 }
 
-DataSource::~DataSource()
+BitcoinExchange::~BitcoinExchange()
 {}
 
-std::map<std::time_t, float> const &DataSource::GetData() const
+std::map<std::time_t, float> const &BitcoinExchange::GetData() const
 {
 	return(this->Data);
 }
 
-void	DataSource::SetData(std::map<std::time_t, float> change)
+void	BitcoinExchange::SetData(std::map<std::time_t, float> change)
 {
 	this->Data = change;
 }
 
-const char*	DataSource::InvalidDataSourceExcepton::what() const _NOEXCEPT
+const char*	BitcoinExchange::InvalidBitcoinExchangeExcepton::what() const _NOEXCEPT
 {
 	return("Invalid Data Source");
 }
 
-void	DataSource::Evaluate(std::time_t date, float amount)
+void	BitcoinExchange::Evaluate(std::time_t date, float amount)
 {
 	std::time_t							t;
 	std::map<std::time_t, float>::iterator	lb = this->Data.lower_bound(date);

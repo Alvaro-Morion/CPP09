@@ -1,14 +1,26 @@
-#include "./DataSource.hpp"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amorion- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/26 10:45:12 by amorion-          #+#    #+#             */
+/*   Updated: 2023/04/26 10:45:15 by amorion-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "./BitcoinExchange.hpp"
 
 int main(int argc, char **argv)
 {
 	if (argc != 2)
-		std::cerr << "Invalid nummber of arguments\n";
+		std::cout << "Invalid nummber of arguments\n";
 	if (!strstr(argv[1], ".txt\0"))
-		std::cerr << "Invalid file extension" << std::endl;
+		std::cout << "Invalid file extension" << std::endl;
 	try
 	{
-		DataSource	data;
+		BitcoinExchange	data;
 		std::ifstream file(argv[1], std::ifstream::in);
 		
 		if(!file.good())
@@ -25,7 +37,7 @@ int main(int argc, char **argv)
 		std::getline(file, line);
 		if(line != "date | value")
 		{
-			std::cerr << "Error: invalid file header: " << line << std::endl;
+			std::cout << "Error: invalid file header: " << line << std::endl;
 			file.close();
 			return(1);
 		}
@@ -34,21 +46,18 @@ int main(int argc, char **argv)
 			strdate = line.substr(0, line.find(" | "));
 			amount = stof(line.substr().erase(0, line.find(" | ") + 3));
 			if(!strptime(strdate.c_str(),"%Y-%m-%d", &date))
-				std::cerr << "Error: bad input => " << line << std::endl;
+				std::cout << "Error: bad input => " << line << std::endl;
 			else if(amount < 0)
-				std::cerr << "Error: Not a positive number\n";
+				std::cout << "Error: Not a positive number.\n";
 			else if (amount > 1000)
-				std::cerr << "Error: Too large a number\n";
+				std::cout << "Error: Too large a number.\n";
 			else
-			{
-				std::cout << std::put_time(&date, "%c") << std::endl;
 				 data.Evaluate(mktime(&date), amount);
-			}
 		}
 	}
 	catch(const std::exception& e)
 	{
-		std::cerr << e.what() << '\n';
+		std::cout << e.what() << '\n';
 		return(1);
 	}
 	return(0);
