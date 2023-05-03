@@ -10,11 +10,11 @@
 #                                                                              #
 # **************************************************************************** #
 
-SRCS = main.cpp
+SRCS = main.cpp RPN.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 
-CC = clang++
+CC = c++
 
 FLAGS = -std=c++98 -Wall -Werror -Wextra -g
 

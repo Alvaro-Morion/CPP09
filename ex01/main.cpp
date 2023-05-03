@@ -12,6 +12,7 @@
 
 #include<stack>
 #include<string>
+#include<cstdlib>
 #include<iostream>
 
 int main(int argc, char **argv)
@@ -28,14 +29,14 @@ int main(int argc, char **argv)
 		int num;
 		std::string n;
 
-		for (std::string::iterator it = line.begin(), end = line.end(); it != end; ++it)
+		for (std::string::iterator it = line.begin(), end = line.end(); it != end; it++)
 		{
 			while(isspace(*it))
 				it++;
-			if(isdigit(*it))
+			if(it != end && isdigit(*it))
 			{
 				n = "";
-				while(isdigit(*it))
+				while(end != it  && isdigit(*it))
 				{
 					n += *it;
 					it++;
@@ -46,7 +47,7 @@ int main(int argc, char **argv)
 					return(1);
 				}
 				else
-					rpn.push(std::atoi(n.c_str()));
+					rpn.push(atoi(n.c_str()));
 			}
 			else if(rpn.size() >= 2 && (*it == '-' || *it == '+' || *it == '*' || *it == '/'))
 			{
@@ -82,15 +83,17 @@ int main(int argc, char **argv)
 						break;
 				}
 			}
-			else
+			else if(!isdigit(*it) && line.find_first_not_of("+-/*", 0))
 			{
 				std::cout << "Error\n";
 				return(1);
 			}
+			else
+				break;
 		}
 		if(rpn.size() == 1)
 		{
-			std::cout << rpn.top();
+			std::cout << rpn.top() << std::endl ;
 			return(0);
 		}
 		else
