@@ -15,9 +15,15 @@
 int main(int argc, char **argv)
 {
 	if (argc != 2)
+	{
 		std::cout << "Invalid nummber of arguments\n";
+		return(0);
+	}
 	if (!strstr(argv[1], ".txt\0"))
+	{
 		std::cout << "Invalid file extension" << std::endl;
+		return(0);
+	}
 	try
 	{
 		BitcoinExchange	data;
@@ -44,7 +50,7 @@ int main(int argc, char **argv)
 		while(std::getline(file, line))
 		{
 			strdate = line.substr(0, line.find(" | "));
-			amount = stof(line.substr().erase(0, line.find(" | ") + 3));
+			amount = std::strtod(line.substr().erase(0, line.find(" | ") + 3).c_str(),NULL);
 			if(!strptime(strdate.c_str(),"%Y-%m-%d", &date))
 				std::cout << "Error: bad input => " << line << std::endl;
 			else if(amount < 0)

@@ -30,7 +30,7 @@ BitcoinExchange::BitcoinExchange()
 			ifs.close();
 			throw(BitcoinExchange::InvalidBitcoinExchangeExcepton());
 		}
-		this->Data[mktime(&date)] = std::stof(line);
+		this->Data[mktime(&date)] = std::strtod(line.c_str(), NULL);
 	}
 
 }
@@ -73,7 +73,7 @@ void	BitcoinExchange::SetData(std::map<std::time_t, float> change)
 	this->Data = change;
 }
 
-const char*	BitcoinExchange::InvalidBitcoinExchangeExcepton::what() const _NOEXCEPT
+const char*	BitcoinExchange::InvalidBitcoinExchangeExcepton::what() const _GLIBCXX_TXN_SAFE_DYN _GLIBCXX_NOTHROW
 {
 	return("Invalid Data Source");
 }
@@ -82,16 +82,21 @@ void	BitcoinExchange::Evaluate(std::time_t date, float amount)
 {
 	std::time_t							t;
 	std::map<std::time_t, float>::iterator	lb = this->Data.lower_bound(date);
-	std::map<std::time_t, float>::iterator 	prev = std::prev(lb);
-	if(lb == this->Data.end())
-		t = prev->first;
-	else if(lb == this->Data.begin())
+	std::map<std::time_t, float>::iterator 	prev;
+	
+	prev = lb;
+	if (lb == this->Data.begin())
 		t = lb->first;
-	else if(date - prev->first < lb->first - date)
-		t = prev->first;
 	else
-		t = lb->first;
-
+	{
+		std::advance(prev, -1);
+		if(lb == this->Data.end())
+			t = prev->first;
+		else if(date - prev->first < lb->first - date)
+			t = prev->first;
+		else
+			t = lb->first;
+	}
 	char	buf[11];
 	std::strftime(buf, 11, "%Y-%m-%d", localtime(&date));
 	std::cout << buf << " => " << amount << " = " << amount * this->Data[t] << std::endl;

@@ -10,33 +10,30 @@
 #                                                                              #
 # **************************************************************************** #
 
-SRCS = main.cpp BitcoinExchange.cpp
+SRCS		=	main.cpp BitcoinExchange.cpp
 
-OBJS = $(SRCS:.cpp=.o)
+OBJS		=	${SRCS:.cpp=.o}
 
-CC = clang++
+NAME		=	btc
 
-FLAGS = -std=c++98 -Wall -Werror -Wextra -g
+CC			=	c++
 
-NAME = btc
+CFLAGS		=	-Wall -Wextra -Werror -std=c++98
 
-all: $(NAME)
+%.o: %.cpp
+				$(CC) $(CFLAGS) $< -c -o ${<:.cpp=.o}
 
-.cpp.o:
-	@$(CC) $(FLAGS) -c $< -o ${<:.cpp=.o}
+all:			${NAME}
 
-$(NAME): $(OBJS)
-	$(CC) $(FLAGS) $(OBJS) -o $(NAME)
-	@echo "Binary generated"
+${NAME}:		${OBJS}
+				${CC} ${CFLAGS} ${OBJS} -o ${NAME}
+			
+clean:
+				rm -f ${OBJS} 
 
-clean: 
-	@rm -rf $(OBJS)
-	@echo "Object files deleted"
+fclean:			clean
+				rm -f ${NAME}
 
-fclean: clean
-	@rm -rf $(NAME)
-	@echo "Binary file deleted"
+re:				fclean all
 
-re: fclean all
-
-.PHONY: re fclean clean all
+.PHONY:			all clean fclean re

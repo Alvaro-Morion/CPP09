@@ -14,9 +14,10 @@
 # define BitcoinExchange_HPP
 # include<map>
 # include<ctime>
-# include<string>
+# include<cstring>
 # include<iostream>
 # include<fstream>
+# include<stdlib.h>
 
 class BitcoinExchange
 {
@@ -27,7 +28,7 @@ private:
 	class InvalidBitcoinExchangeExcepton : public std::exception
 	{
 		public:
-			const char* what() const _NOEXCEPT;
+			const char* what() const _GLIBCXX_TXN_SAFE_DYN _GLIBCXX_NOTHROW;
 	};
 public:
 	BitcoinExchange();
