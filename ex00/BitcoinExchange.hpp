@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   BitcoinExchange.hpp                                     :+:      :+:    :+:   */
+/*   BitcoinExchange.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amorion- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/21 16:34:46 by amorion-          #+#    #+#             */
-/*   Updated: 2023/04/21 16:34:48 by amorion-         ###   ########.fr       */
+/*   Created: 2023/10/28 17:14:28 by amorion-          #+#    #+#             */
+/*   Updated: 2023/10/28 17:14:34 by amorion-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ private:
 	class InvalidBitcoinExchangeExcepton : public std::exception
 	{
 		public:
-			const char* what() const _GLIBCXX_TXN_SAFE_DYN _GLIBCXX_NOTHROW;
+			const char* what() const throw();
 	};
 public:
 	BitcoinExchange();

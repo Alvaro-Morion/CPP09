@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   BitcoinExchange.cpp                                     :+:      :+:    :+:   */
+/*   BitcoinExchange.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amorion- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/21 16:43:40 by amorion-          #+#    #+#             */
-/*   Updated: 2023/04/21 16:43:41 by amorion-         ###   ########.fr       */
+/*   Created: 2023/10/28 17:14:02 by amorion-          #+#    #+#             */
+/*   Updated: 2023/10/28 17:14:11 by amorion-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	BitcoinExchange::SetData(std::map<std::time_t, float> change)
 	this->Data = change;
 }
 
-const char*	BitcoinExchange::InvalidBitcoinExchangeExcepton::what() const _GLIBCXX_TXN_SAFE_DYN _GLIBCXX_NOTHROW
+const char*	BitcoinExchange::InvalidBitcoinExchangeExcepton::what() const throw()
 {
 	return("Invalid Data Source");
 }

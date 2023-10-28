@@ -90,6 +90,31 @@ void	PmergeMe::MergeSort(T &container)
 }
 
 template <typename T>
+void	PmergeMe::MergeInsertionSort(T &container)
+{
+	T b;
+	T a;
+	for (typename T::iterator iter = container.begin();	iter < container.end(); iter = iter + 2)
+	{
+		std::cout << *iter << std::endl;
+		if ((iter + 1) == container.end())
+			b.push_back(*iter);
+		else if (*iter < *(iter + 1))
+		{
+			a.push_back(*iter);
+			b.push_back(*(iter + 1));
+		}
+		else
+		{
+			b.push_back(*iter);
+			a.push_back(*(iter + 1));
+		}
+	}
+	std::cout << "a:" << PrintContainer(a) << "b:" << PrintContainer(b) << std::endl;
+	if(a.size() > 1)
+		MergeInsertionSort(a);
+}
+template <typename T>
 void	PmergeMe::InsertionSort(T &container)
 {
 	for(size_t i = 0; i < container.size(); i++)
@@ -103,8 +128,9 @@ void	PmergeMe::Sort(T &container, std::string input)
 {
 	clock_t t = clock();
 	this->Parse(container, input);
-	this->MergeSort(container);
+	//this->MergeSort(container);
 	t = clock() - t;
+	this->MergeInsertionSort(container);
 	elapsed_time = (float)t*1000000/CLOCKS_PER_SEC;
 	
 }

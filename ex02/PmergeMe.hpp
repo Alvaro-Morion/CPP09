@@ -17,6 +17,8 @@ class	PmergeMe
 		template <typename T>
 			void	MergeSort(T &container);
 		template <typename T>
+			void	MergeInsertionSort(T &container);
+		template <typename T>
 			void	Sort(T &container, std::string input);
 	public:
 		PmergeMe();
