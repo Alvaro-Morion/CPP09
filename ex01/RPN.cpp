@@ -8,47 +8,53 @@ RPN::RPN(RPN &src)
 	this->stack=src.stack;
 }
 
-RPN &RPN::operator=(RPN const &rhs) const;
+RPN 	&RPN::operator=(RPN const &rhs)
 {
 	this->stack = rhs.stack;
 	return(*this);
 }
 
-RPN::InsertNumber(int const n)
+void	RPN::InsertNumber(int const n)
 {
 	if ((n < 0) || (n >= 10))
-	{
-		throw("Out of range input");
-	}
+		throw(std::exception());
 	else
 		this->stack.push(n);
 }
 
-RPN::Operate(std::string const sign)
+void	RPN::Operate(std::string const sign)
 {
-	valid_operators = "+-*/"
-	if(sign.len() != 1 || valid_operatosr.find(sign) == std::string::npos)
-		std::cout << "Invalid operator\n";
-	if(this->stack.size < 2)
-		std::cout << "Invalid sintax\n";
+	std::string valid_operators("+-*/");
+	if(sign.size() != 1 || valid_operators.find(sign) == std::string::npos)
+		throw(std::exception());
+	if(this->stack.size() < 2)
+		throw(std::exception());
+	int a, b;
 	b = this->stack.top();
 	this->stack.pop();
 	a = this->stack.top();
 	this->stack.pop();
-	if(sign == "+")
-		this->stack.push(a + b);
-	if(sign == "-")
-		this->stack.push(a - b);
-	if(sign == "*")
-		this->stack.push(a * b);
-	if(sign == "/")
-		this->stack.push(a / b);
+	switch(sign[0])
+	{
+		case('+'):
+			this->stack.push(a + b);
+			break;
+		case('-'):
+			this->stack.push(a - b);
+			break;
+		case('*'):
+			this->stack.push(a * b);
+			break;
+		case('/'):
+			this->stack.push(a / b);
+			break;
+	}
 }
 
-RPN::DisplayResult() const
+void	RPN::DisplayResult() const
 {
-	if(this->stack.len() != 1)
-		stc::cout << "Error";
+	if(this->stack.size() != 1)
+		throw(std::exception());
 	else
 		std::cout << this->stack.top() << std::endl;
 }

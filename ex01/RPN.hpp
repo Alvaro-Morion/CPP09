@@ -12,13 +12,14 @@ class RPN
 
 		~RPN();
 		
-		RPN &operator=(RPN const &rhs) const;
-		InsertNumber(int const n);
-		Operate(std::string const sign);
-		DisplayResult() const;
+		RPN 	&operator=(RPN const &rhs);
+		
+		void	InsertNumber(int const n);
+		void	Operate(std::string const sign);
+		void	DisplayResult() const;
 
 	private:
 		std::stack<int> stack;
 
-}
+};
 #endif
