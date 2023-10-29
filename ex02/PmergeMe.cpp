@@ -61,42 +61,12 @@ size_t	PmergeMe::PrintDeque(void)
 }
 
 template <typename T>
-void	PmergeMe::MergeSort(T &container)
-{
-	size_t size = container.size();
-	if(size > 20)
-	{
-		typename T::iterator mid = container.begin() + size/2;
-		T left(container.begin(), mid);
-		T right(mid, container.end());
-		MergeSort(left);
-		MergeSort(right);
-		typename T::iterator ridx = right.begin();
-		typename T::iterator lidx = left.begin();
-		for (typename T::iterator i=container.begin(); i < container.end(); i++)
-		{
-			if(ridx == right.end())
-				*i = *lidx++;
-			else if(lidx == left.end())
-				*i = *ridx++;
-			else if (*ridx > *lidx)
-				*i = *lidx++;
-			else
-				*i = *ridx++;
-		}
-		return;
-	}
-	InsertionSort(container);
-}
-
-template <typename T>
-void	PmergeMe::MergeInsertionSort(T &container)
+T	PmergeMe::MergeInsertionSort(T &container)
 {
 	T b;
 	T a;
 	for (typename T::iterator iter = container.begin();	iter < container.end(); iter = iter + 2)
 	{
-		std::cout << *iter << std::endl;
 		if ((iter + 1) == container.end())
 			b.push_back(*iter);
 		else if (*iter < *(iter + 1))
@@ -110,29 +80,29 @@ void	PmergeMe::MergeInsertionSort(T &container)
 			a.push_back(*(iter + 1));
 		}
 	}
-	std::cout << "a:" << PrintContainer(a) << "b:" << PrintContainer(b) << std::endl;
 	if(a.size() > 1)
-		MergeInsertionSort(a);
-}
-template <typename T>
-void	PmergeMe::InsertionSort(T &container)
-{
-	for(size_t i = 0; i < container.size(); i++)
-		std::rotate(std::upper_bound(container.begin(), container.begin() + i, container[i]),
-			container.begin()+i, container.begin() + i + 1);
+		a = MergeInsertionSort(a);
+	typename T::iterator iter;
+	while(b.size())
+	{
+		iter = a.begin();
+		while(iter != a.end() && *iter <= b.back())
+			iter++;
+		a.insert(iter, b.back());
+		b.pop_back();
+	}
+	return(a);
 
 }
 
 template <typename T>
 void	PmergeMe::Sort(T &container, std::string input)
 {
-	clock_t t = clock();
+	std::chrono::steady_clock::time_point start = std::chrono::high_resolution_clock::now();
 	this->Parse(container, input);
-	//this->MergeSort(container);
-	t = clock() - t;
-	this->MergeInsertionSort(container);
-	elapsed_time = (float)t*1000000/CLOCKS_PER_SEC;
-	
+	container = this->MergeInsertionSort(container);
+	std::chrono::steady_clock::time_point stop = std::chrono::high_resolution_clock::now();
+	elapsed_time = std::chrono::duration_cast<std::chrono::microseconds>(stop-start).count();
 }
 
 void	PmergeMe::VectorSort(std::string input)

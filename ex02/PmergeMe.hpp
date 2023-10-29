@@ -5,6 +5,7 @@
 # include <iostream>
 # include <sstream>
 # include <algorithm>
+# include <chrono>
 
 class	PmergeMe
 {
@@ -13,11 +14,7 @@ class	PmergeMe
 		std::deque<int>	deque;
 
 		template <typename T>
-			void	InsertionSort(T &container);
-		template <typename T>
-			void	MergeSort(T &container);
-		template <typename T>
-			void	MergeInsertionSort(T &container);
+			T	MergeInsertionSort(T &container);
 		template <typename T>
 			void	Sort(T &container, std::string input);
 	public:
@@ -46,12 +43,12 @@ class	PmergeMe
 			public: const char *what() const throw();
 		};
 		class EmptyException : public std::exception
-                {
+        {
 			public: const char *what() const throw();
-                };
+        };
 		class InvalidArgumentException: public std::exception
 		{
         		public: const char *what() const throw();
-    		};
+		};
 };
 #endif
